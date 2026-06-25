@@ -6,6 +6,8 @@ import { useAuth } from "../Context/AuthContext";
 //create state for email and password
 function RegisterForm() {
   const { registerUser } = useAuth();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,26 +28,38 @@ function RegisterForm() {
 
     //object that will be used for api
     const credentials = {
-      email: email,
-      password: password,
+      firstname: firstName,
+      lastname: lastName,
+      email,
+      password,
     };
 
     await registerUser(credentials);
 
     setEmail("");
     setPassword("");
+    setFirstName("");
+    setLastName("");
   };
 
   return (
-    <form className="auth-form">
+    <form className="auth-form" onSubmit={handleSubmit}>
       <h2>Create Account</h2>
       <label>
         First Name:
-        <input type="text" />
+        <input
+          type="text"
+          value={firstName}
+          onChange={(event) => setFirstName(event.target.value)}
+        />
       </label>
       <label>
         Last Name:
-        <input type="text" />
+        <input
+          type="text"
+          value={lastName}
+          onChange={(event) => setLastName(event.target.value)}
+        />
       </label>
       <label>
         Email:
@@ -59,9 +73,7 @@ function RegisterForm() {
           value={password}
         />
       </label>
-      <button type="submit" onClick={handleSubmit}>
-        Create Account
-      </button>
+      <button type="submit">Create Account</button>
     </form>
   );
 }

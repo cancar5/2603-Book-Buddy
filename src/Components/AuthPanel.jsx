@@ -1,4 +1,4 @@
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import RegisterForm from "./RegisterForm";
 
 function AuthPanel() {
@@ -16,7 +16,8 @@ function AuthPanel() {
           <button onClick={checkAuth}>Authenticate Token</button>
           <button onClick={logout}>Logout</button>
 
-          {user && <p>Logged in as: {user.username}</p>}
+          {user && <p>Logged in as: {user.firstname}</p>}
+          {authError && <p>{authError}</p>}
         </div>
       )}
       {authMessage && <p className="success-message">{authMessage}</p>}

@@ -25,9 +25,16 @@ export function AuthProvider({ children }) {
 
       const newToken = await register(credentials);
       setToken(newToken);
+
+      const userData = await getCurrentUser(newToken);
+      setUser(userData);
       setAuthMessage("Account created!");
+      if (!newToken) {
+        setAuthError("Registration failed");
+        return;
+      }
     } catch (error) {
-      throw new error();
+      throw error();
     }
   }
 
@@ -42,11 +49,11 @@ export function AuthProvider({ children }) {
       setToken(newToken);
       const userData = await getCurrentUser(newToken);
       setUser(userData);
-      const reservationData = await getReservations();
-      getReservations(reservationData);
-      setAuthMessage("Account created!");
+      const reservationData = await getReservations(newToken);
+      setReservations(reservationData.reservations);
+      setAuthMessage("Logged in!");
     } catch (error) {
-      throw new error();
+      setAuthError(error.message);
     }
   }
 
@@ -57,12 +64,14 @@ export function AuthProvider({ children }) {
     const userData = await authenticate(token); //authenticate user
     setUser(userData); //store credentials here
     setAuthMessage("You are authenticated!"); //message given
+    setAuthError("Error with authentication.");
   }
 
   //converting everything back to initial state
   function logout() {
     setToken(null);
     setUser(null);
+    setReservations([]);
     setAuthMessage("You logged out.");
   }
 

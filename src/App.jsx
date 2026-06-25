@@ -4,6 +4,7 @@ import { getBooks } from "./API/Books";
 import BookList from "./Components/BookList";
 import BookDetails from "./Components/BookDetails";
 import RegisterForm from "./Components/RegisterForm";
+import Reservations from "./Components/Reservations";
 
 // import AuthPanel from "./Components/AuthPanel";
 
@@ -48,6 +49,7 @@ function App() {
           setBooks={setBooks}
         />
       )}
+      <Reservations />
     </main>
   );
 }
